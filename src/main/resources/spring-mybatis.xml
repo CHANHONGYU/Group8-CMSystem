@@ -9,7 +9,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
         <property name="typeAliasesPackage" value="com.smart.cmsystem.domain"/>
-        <property name="mapperLocations" value="classpath:mapper/**/RoleMapper.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
