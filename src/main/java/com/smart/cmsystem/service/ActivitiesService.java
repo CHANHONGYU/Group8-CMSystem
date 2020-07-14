@@ -1,6 +1,8 @@
 package com.smart.cmsystem.service;
 
+import com.smart.cmsystem.domain.dto.ActivitiesDto;
 import com.smart.cmsystem.domain.entity.Activities;
+import com.smart.cmsystem.utils.ResponseEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,4 +14,8 @@ import java.util.List;
  */
 public interface ActivitiesService {
     List<Activities> ActivitiesList(String keyword,String startTime,String endTime,int limit,int offset);
+    ResponseEntity deleteActivities(List<Integer> actIds);
+//    增加活动
+    ResponseEntity saveActivities(ActivitiesDto activitiesDto);
+    ResponseEntity updateActivities(ActivitiesDto activitiesDto);
 }

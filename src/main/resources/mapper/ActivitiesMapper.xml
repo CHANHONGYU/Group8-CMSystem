@@ -20,6 +20,7 @@
     act_id, theme, community, `location`, organizers, start_time, end_time, create_time, 
     `status`
   </sql>
+
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"></include>
     FROM activities
@@ -41,5 +42,63 @@
     </trim>
     LIMIT #{limit},#{offset};
   </select>
+
+<!--  批量删除活动-->
+  <update id="deleteActivities">
+    UPDATE activities
+    SET is_del=1
+    WHERE act_id IN
+    <foreach collection="actIds" item="actId" open="(" close=")" separator=",">
+        #{actId}
+    </foreach>
+    AND is_del=0;
+  </update>
+
+  <sql id="Insert_List">
+      theme,community,location,organizers,start_time,end_time,status
+  </sql>
+  <sql id="Value_List">
+      #{activities.theme},#{activities.community},#{activities.location},#{activities.organizers},#{activities.start_time},#{activities.end_time},#{activities.status}
+  </sql>
+  <insert id="saveActivities" keyProperty="activities.actId" useGeneratedKeys="true">
+    INSERT INTO activities (<include refid="Insert_List"/>)
+    VALUES(#{activities.theme},
+    #{activities.community},
+    #{activities.location},
+    #{activities.organizers},
+    #{activities.startTime},
+    #{activities.endTime},
+    #{activities.status}
+    );
+  </insert>
+
+
+  <update id="updateActivities">
+    update activities
+    <trim prefix="set" suffixOverrides="," >
+      <if test="act.theme != null and act.theme !='' ">
+        theme=#{act.theme},
+      </if>
+      <if test="act.community != null and act.community != ''">
+        community=#{act.community},
+      </if>
+      <if test="act.location != null and act.location != ''">
+        location=#{act.location},
+      </if>
+      <if test="act.organizers != null and act.organizers != ''">
+        organizers=#{act.organizers},
+      </if>
+      <if test="act.startTime != null">
+        start_time =#{act.startTime},
+      </if>
+      <if test="act.endTime !=null">
+        end_time=#{act.endTime},
+      </if>
+      <if test="act.status != null">
+        status=#{act.status},
+      </if>
+    </trim>
+    where  act_id=#{act.actId} AND is_del=0;
+  </update>
 
 </mapper>
