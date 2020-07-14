@@ -128,4 +128,16 @@
       is_del = #{isDel,jdbcType=INTEGER}
     where car_id = #{carId,jdbcType=INTEGER}
   </update>
+    <select id="selectAllByDate" resultMap="BaseResultMap">
+      select *
+      from car
+      where
+      create_time BETWEEN #{search.startDay} AND #{search.endDay}
+      AND car_color like concat(concat('%',#{search.ownerName},'%')) and is_del=1
+    </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from car
+    where is_del=1
+  </select>
 </mapper>

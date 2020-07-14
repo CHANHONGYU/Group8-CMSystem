@@ -2,6 +2,7 @@ package com.smart.cmsystem.controller;
 
 import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Owner;
+import com.smart.cmsystem.service.OwnerService;
 import com.smart.cmsystem.service.impl.OwnerServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +17,14 @@ import java.util.List;
 @RequestMapping("/owner")
 public class OwnerController {
     @Resource
-    OwnerServiceImpl ownerService;
+    OwnerService ownerService;
 
+    /**
+     * 搜索所需业主信息
+     *
+     * @param search
+     * @return
+     */
     @RequestMapping("/selectByDate")
     public List<Owner> selectByDate(@RequestBody Search search){
         return ownerService.searchOwner(search);

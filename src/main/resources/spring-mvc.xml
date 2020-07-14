@@ -15,7 +15,6 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <bean id="fastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
-        <property name="dateFormat" value="yyyy-mm-dd"/>
+        <property name="dateFormat" value="yyyy-MM-dd"/>
     </bean>
-
 </beans>
