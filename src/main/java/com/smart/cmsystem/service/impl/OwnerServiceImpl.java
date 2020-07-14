@@ -22,7 +22,7 @@ public class OwnerServiceImpl implements OwnerService {
      */
     @Override
     public List<Owner> searchOwner(Search search) {
-        return null;
+        return ownerMapper.selectAllByDate(search);
     }
 
     /**

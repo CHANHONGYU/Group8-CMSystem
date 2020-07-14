@@ -4,7 +4,6 @@ import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Owner;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 public interface OwnerMapper {
