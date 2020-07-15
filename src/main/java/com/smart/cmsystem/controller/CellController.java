@@ -17,7 +17,7 @@ public class CellController {
     CellService cellService;
     //查询列表，分页
     @GetMapping("/list/{page}/{size}")
-    public RUtity<List<Cell>> list(@PathVariable("page") int page, @PathVariable("size") int size){
+    public RUtity<List<Cell>> list(@PathVariable(value = "page") int page, @PathVariable("size") int size){
         List<Cell> cells = cellService.queryAll(page, size);
         return RUtity.success(cells);
     }
