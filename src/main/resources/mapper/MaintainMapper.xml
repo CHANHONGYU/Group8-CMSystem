@@ -40,4 +40,45 @@
     </trim>
     LIMIT #{limit},#{offset};
   </select>
+  <update id="deleteMaintain">
+    update maintain
+    set is_del=1
+    where maintain_id in
+    <foreach collection="mIds" item="mId" open="(" close=")" separator=",">
+      #{mId}
+    </foreach>
+    and is_del=0;
+   </update>
+
+
+  <sql id="Insert_List">
+    community,repairee,device_name,status,description
+  </sql>
+
+  <insert id="insertMaintain">
+    INSERT INTO maintain(<include refid="Insert_List"></include>)
+    VALUES (#{maintain.community},#{maintain.repairee},#{maintain.deviceName},#{maintain.status},#{maintain.description})
+  </insert>
+
+  <update id="updateMaintain">
+    update maintain
+    <trim prefix="set" suffixOverrides="," >
+        <if test="maintain.community != null and maintain.community != ''">
+          community=#{maintain.community},
+        </if>
+      <if test="maintain.repairee != null and maintain.repairee != ''">
+        repairee=#{maintain.repairee},
+      </if>
+      <if test="maintain.deviceName != null and maintain.deviceName != ''">
+        device_name=#{maintain.deviceName},
+      </if>
+      <if test="maintain.description != null and maintain.description != ''">
+        description=#{maintain.description},
+      </if>
+      <if test="maintain.status != null">
+        status=#{maintain.status}
+      </if>
+    </trim>
+    where  maintain_id=#{maintain.maintainId} AND is_del=0;
+  </update>
 </mapper>
