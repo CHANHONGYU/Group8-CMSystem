@@ -72,7 +72,7 @@ public class CarServiceImpl implements CarService {
     }
 
     /**
-     * 修改一名车辆的信息
+     * 修改一辆车的信息
      *
      * @param car  要修改车辆的实体类
      * @return 修改车辆是否成功，0表示不成功，1表示成功
@@ -84,7 +84,7 @@ public class CarServiceImpl implements CarService {
     }
 
     /**
-     * 删除一名车辆的信息
+     * 删除一辆车的信息
      *
      * @param car 要删除车辆的实体类
      * @return 删除车辆是否成功，0表示不成功，1表示成功

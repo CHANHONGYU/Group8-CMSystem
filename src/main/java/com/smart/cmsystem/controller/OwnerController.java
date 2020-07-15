@@ -3,8 +3,6 @@ package com.smart.cmsystem.controller;
 import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Owner;
 import com.smart.cmsystem.service.OwnerService;
-import com.smart.cmsystem.service.impl.OwnerServiceImpl;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

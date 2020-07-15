@@ -164,4 +164,17 @@
       is_del = #{isDel,jdbcType=INTEGER}
     where assets_id = #{assetsId,jdbcType=INTEGER}
   </update>
+    <select id="selectAllByDate" resultMap="BaseResultMap">
+      select *
+      from assets
+      where
+      assets_buytime BETWEEN #{search.startDay} AND #{search.endDay}
+      AND assets_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1
+
+    </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from assets
+    where is_del=1
+  </select>
 </mapper>
