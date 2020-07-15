@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.cmsystem.mapper.CellMapper">
+  <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.Cell">
+    <!--@mbg.generated-->
+    <!--@Table cell-->
+    <id column="c_id" jdbcType="INTEGER" property="cId" />
+    <result column="c_number" jdbcType="VARCHAR" property="cNumber" />
+    <result column="c_name" jdbcType="VARCHAR" property="cName" />
+    <result column="c_address" jdbcType="VARCHAR" property="cAddress" />
+    <result column="c_areacovered" jdbcType="INTEGER" property="cAreacovered" />
+    <result column="c_buildings" jdbcType="INTEGER" property="cBuildings" />
+    <result column="c_totalusers" jdbcType="INTEGER" property="cTotalusers" />
+    <result column="c_green" jdbcType="INTEGER" property="cGreen" />
+    <result column="c_thumbnail" jdbcType="VARCHAR" property="cThumbnail" />
+    <result column="c_developername" jdbcType="VARCHAR" property="cDevelopername" />
+    <result column="c_propertycompany" jdbcType="VARCHAR" property="cPropertycompany" />
+    <result column="c_creationtime" jdbcType="TIMESTAMP" property="cCreationtime" />
+    <result column="c_state" jdbcType="INTEGER" property="cState" />
+    <result column="c_del" jdbcType="INTEGER" property="cDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    c_id, c_number, c_name, c_address, c_areacovered, c_buildings, c_totalusers, c_green, 
+    c_thumbnail, c_developername, c_propertycompany, c_creationtime, c_state
+  </sql>
+    <select id="seritesAll" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from cell c
+      where c_del=1
+      limit #{page},#{size}
+    </select>
+  <update id="selectByState" >
+    update cell c set c.c_state =#{state}
+     where c.c_id=#{cid}
+  </update>
+  <insert id="insertCell" keyColumn="c_id" keyProperty="cId" parameterType="com.smart.cmsystem.domain.entity.Cell" useGeneratedKeys="true">
+    insert into Cell(c_number, c_name, c_address, c_areacovered, c_buildings, c_totalusers, c_green, c_thumbnail,
+    c_developername, c_propertycompany, c_creationtime,c_state)
+    value (#{cells.cNumber},#{cells.cName},#{cells.cAddress},#{cells.cAreacovered}, #{cells.cBuildings},#{cells.cTotalusers},#{cells.cGreen},#{cells.cThumbnail}, #{cells.cDevelopername},#{cells.cPropertycompany}, #{cells.cCreationtime},#{cells.cState})
+  </insert>
+  <update id="updateByPrimaryKey">
+    update cell c set c.c_del=0
+    where c.c_id=#{cid}
+  </update>
+  <select id="selectBykeyword" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from cell c
+    <trim prefix="where">
+      <if test="keyword != null and keyword != ''">
+        c.c_name like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        or c.c_address like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        or c.c_developername like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        or c.c_propertycompany like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        and c.c_del=1
+      </if>
+    </trim>
+  </select>
+  <update id="updataByContent">
+    update cell c 
+    <trim prefix="set" suffixOverrides=",">
+       <if test="content.CNumber != null and content.CNumber != ''">
+         c.c_number=#{content.CNumber,jdbcType=VARCHAR},
+       </if>
+      <if test="content.cName != null and content.cName != ''">
+        c.c_name=#{content.cName,jdbcType=VARCHAR},
+      </if>
+      <if test="content.cAddress != null and content.cAddress != ''">
+        c.c_address=#{content.cAreacovered,jdbcType=INTEGER},
+      </if>
+      <if test="content.cAreacovered != null">
+        c.c_areacovered=#{content.CAreacovered,jdbcType=INTEGER},
+      </if>
+      <if test="content.cBuildings != null">
+        c.c_buildings=#{content.CBuildings,jdbcType=INTEGER},
+      </if>
+      <if test="content.cTotalusers != null">
+        c.c_totalusers=#{content.cTotalusers,jdbcType=INTEGER},
+      </if>
+      <if test="content.cGreen != null">
+        c.c_green=#{content.cGreen,jdbcType=INTEGER},
+      </if>
+      <if test="content.cThumbnail != null and content.cThumbnail != ''">
+        c.c_thumbnail=#{content.cThumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="content.cDevelopername != null and content.cDevelopername != ''">
+       c.c_developername=#{content.cDevelopername,jdbcType=VARCHAR},
+      </if>
+      <if test="param1.cPropertycompany != null and param1.cPropertycompany != ''">
+        c.c_propertycompany=#{content.cPropertycompany,jdbcType=VARCHAR},
+      </if>
+      <if test="content.cCreationtime != null">
+        c.c_creationtime=#{content.cCreationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content.cState != null">
+        c.c_state=#{content.cState,jdbcType=INTEGER}
+      </if>
+    </trim>
+    <trim prefix="where">
+      c.c_id=#{content.cId}
+    </trim>
+  </update>
+  <update id="updataByArray">
+    update cell c set c.c_del =0
+    where c.c_id in
+    <foreach collection="ids" item="id" index="index"
+             open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+
+</mapper>
