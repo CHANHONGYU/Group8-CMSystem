@@ -2,6 +2,7 @@ package com.smart.cmsystem.service;
 
 
 
+import com.smart.cmsystem.domain.dto.CellDto;
 import com.smart.cmsystem.domain.entity.Cell;
 
 import java.util.List;
@@ -16,9 +17,9 @@ public interface CellService {
     //关键查
     List<Cell> querykeywords(String keywords);
     //修改
-    int RevisedContent(Cell cell);
+    int RevisedContent(CellDto cellDto);
     //添加
-    int setupData(Cell cell);
+    int setupData(CellDto cellDto);
     //批量删除
     int BatchDeletion(int[] ints);
 

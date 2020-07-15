@@ -1,9 +1,11 @@
 package com.smart.cmsystem.service.impl;
 
 
+import com.smart.cmsystem.domain.dto.CellDto;
 import com.smart.cmsystem.domain.entity.Cell;
 import com.smart.cmsystem.mapper.CellMapper;
 import com.smart.cmsystem.service.CellService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,8 @@ import java.util.List;
 public class CellServiceImpl implements CellService {
     @Resource
     CellMapper cellMapper;
+
+
 
     @Override
     public List<Cell> queryAll(int page, int size) {
@@ -40,15 +44,26 @@ public class CellServiceImpl implements CellService {
     }
 
     @Override
-    public int RevisedContent(Cell cell) {
+    public int RevisedContent(CellDto cellDto) {
+        Cell cell = new Cell();
+        if (cellDto!=null){
+            /**
+             * 第一个是被复制的，第二个是接受的
+             */
+            BeanUtils.copyProperties(cellDto,cell);
+            }
         int i = cellMapper.updataByContent(cell);
         return i;
     }
 
     @Override
-    public int setupData(Cell cell) {
-        if(cell.getCCreationtime()==null){
-            cell.setCCreationtime(new Date());
+    public int setupData(CellDto cellDto) {
+        Cell cell = new Cell();
+        if (cellDto!=null){
+            if(cellDto.getCCreationtime()==null){
+                cellDto.setCCreationtime(new Date());
+            }
+            BeanUtils.copyProperties(cellDto,cell);
         }
         int i = cellMapper.insertCell(cell);
         return i;

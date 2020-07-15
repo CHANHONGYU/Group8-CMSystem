@@ -1,6 +1,7 @@
 package com.smart.cmsystem.controller;
 
 
+import com.smart.cmsystem.domain.dto.CellDto;
 import com.smart.cmsystem.domain.entity.Cell;
 import com.smart.cmsystem.service.CellService;
 import com.smart.cmsystem.utils.RUtity;
@@ -40,14 +41,14 @@ public class CellController {
     }
     //修改
     @PutMapping("/amended")
-    public RUtity<Integer>  amended(@RequestBody Cell cell){
-        int i = cellService.RevisedContent(cell);
+    public RUtity<Integer>  amended(@RequestBody CellDto cellDto){
+        int i = cellService.RevisedContent(cellDto);
         return RUtity.success(i);
     }
     //添加
     @PostMapping("/add")
-    public RUtity<Integer>  addTo(@RequestBody Cell cell){
-        int i = cellService.setupData(cell);
+    public RUtity<Integer>  addTo(@RequestBody CellDto cellDto){
+        int i = cellService.setupData(cellDto);
         return RUtity.success(i);
     }
     //批量删除

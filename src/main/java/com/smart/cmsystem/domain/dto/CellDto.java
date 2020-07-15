@@ -1,6 +1,7 @@
 package com.smart.cmsystem.domain.dto;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
@@ -61,6 +62,7 @@ public class CellDto {
     /**
      * 创建时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date cCreationtime;
 
     /**
