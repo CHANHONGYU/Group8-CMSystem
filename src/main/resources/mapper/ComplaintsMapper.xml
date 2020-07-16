@@ -75,7 +75,7 @@
             <if test="complaints.cName!=null">
                 c_name=#{complaints.cName},
             </if>
-            <if test="complaints.cDetail=null">
+            <if test="complaints.cDetail!=null">
                 c_detail=#{complaints.cDetail},
             </if>
             <if test="complaints.CStatus!=null">
