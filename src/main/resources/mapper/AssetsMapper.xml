@@ -167,9 +167,25 @@
     <select id="selectAllByDate" resultMap="BaseResultMap">
       select *
       from assets
-      where
-      assets_buytime BETWEEN #{search.startDay} AND #{search.endDay}
-      AND assets_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1
+      <trim prefix="where" prefixOverrides="or">
+        <if test="search.ownerName!=null ">
+          or assets_name like concat(concat('%',#{search.ownerName},'%'))
+        </if>
+        <if test="search.startDay!=null and search.endDay!=null ">
+          and assets_buytime between #{search.startDay} AND #{search.endDay}
+        </if>
+        <if test="search.startDay!=null and search.endDay==null ">
+          and assets_buytime > #{search.startDay,jdbcType=TIMESTAMP}
+        </if>
+        <if test="search.startDay==null and search.endDay!=null ">
+          and #{search.endDay,jdbcType=TIMESTAMP} > assets_buytime
+        </if>
+        <if test="1==1">
+          and is_del=1
+        </if>
+      </trim>
+<!--      assets_buytime BETWEEN #{search.startDay} AND #{search.endDay}-->
+<!--      AND assets_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1-->
 
     </select>
   <select id="selectAll" resultMap="BaseResultMap">

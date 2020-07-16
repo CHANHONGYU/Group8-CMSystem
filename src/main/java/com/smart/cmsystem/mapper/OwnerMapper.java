@@ -19,10 +19,6 @@ public interface OwnerMapper {
 
     int updateByPrimaryKey(Owner record);
 
-    /**
-     * 返回所有业主信息
-     * @return
-     */
     List<Owner> selectAll();
 
     List<Owner> selectAllByDate(@Param("search")Search search);

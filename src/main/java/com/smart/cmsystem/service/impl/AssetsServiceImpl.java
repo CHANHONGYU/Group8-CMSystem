@@ -42,7 +42,7 @@ public class AssetsServiceImpl implements AssetsService {
      * @return
      */
     @Override
-    public int delAssetss(List<Assets> assetsList) {
+    public int delAssetsList(List<Assets> assetsList) {
         int count=0;
         if (assetsList!=null){
             for (Assets assets : assetsList) {

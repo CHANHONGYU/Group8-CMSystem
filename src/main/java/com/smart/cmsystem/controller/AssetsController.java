@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@RequestMapping("/assets")
 public class AssetsController {
     @Resource
     AssetsServiceImpl assetsService;
@@ -71,8 +72,8 @@ public class AssetsController {
      * @param assetsList
      * @return
      */
-    @RequestMapping("/delAssetss")
-    public int delAssetss(@RequestBody List<Assets> assetsList){
-        return assetsService.delAssetss(assetsList);
+    @RequestMapping("/delAssetsList")
+    public int delAssetsList(@RequestBody List<Assets> assetsList){
+        return assetsService.delAssetsList(assetsList);
     }
 }

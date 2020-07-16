@@ -131,9 +131,25 @@
     <select id="selectAllByDate" resultMap="BaseResultMap">
       select *
       from car
-      where
-      create_time BETWEEN #{search.startDay} AND #{search.endDay}
-      AND car_color like concat(concat('%',#{search.ownerName},'%')) and is_del=1
+      <trim prefix="where" prefixOverrides="or">
+        <if test="search.ownerName!=null ">
+          or car_color like concat(concat('%',#{search.ownerName},'%'))
+        </if>
+        <if test="search.startDay!=null and search.endDay!=null ">
+          and create_time between #{search.startDay} AND #{search.endDay}
+        </if>
+        <if test="search.startDay!=null and search.endDay==null ">
+          and create_time > #{search.startDay,jdbcType=TIMESTAMP}
+        </if>
+        <if test="search.startDay==null and search.endDay!=null ">
+          and #{search.endDay,jdbcType=TIMESTAMP} > create_time
+        </if>
+        <if test="1==1">
+          and is_del=1
+        </if>
+      </trim>
+<!--      create_time BETWEEN #{search.startDay} AND #{search.endDay}-->
+<!--      AND car_color like concat(concat('%',#{search.ownerName},'%')) and is_del=1-->
     </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select *

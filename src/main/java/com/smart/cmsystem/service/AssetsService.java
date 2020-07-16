@@ -25,7 +25,7 @@ public interface AssetsService {
      * @param assetsList
      * @return
      */
-    int delAssetss(List<Assets> assetsList);
+    int delAssetsList(List<Assets> assetsList);
 
     /**
      * 显示所有资产的信息
