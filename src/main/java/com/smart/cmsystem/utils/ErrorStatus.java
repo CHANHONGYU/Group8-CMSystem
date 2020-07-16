@@ -5,12 +5,13 @@ public enum ErrorStatus {
 
     POST_SUCCESS(20001, "success", "提交数据成功"),
 
-    SERVICE_ERROR(40001, "service  error", "S数据异常, 请重新在试"),
+    SERVICE_ERROR(40001, "service  error", "S层数据异常, 请重新在试"),
 
-    DAO_ERROR(40001, "service  error", "D数据层异常"),
+    DAO_ERROR(40001, "dao  error", "D数据层异常"),
 
-    SYS_ERROR(40004, "sys  error", "系统繁忙, 请重新在试");
+    SYS_ERROR(40004, "sys  error", "系统繁忙, 请重新在试"),
 
+    REQUEST_ERROR(40002,"request error","数据请求异常,请核对后再试");
     int status;
     String msg;
     String tip;
