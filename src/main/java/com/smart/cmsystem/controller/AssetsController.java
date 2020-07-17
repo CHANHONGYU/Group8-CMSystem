@@ -3,16 +3,14 @@ package com.smart.cmsystem.controller;
 import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Assets;
 import com.smart.cmsystem.service.impl.AssetsServiceImpl;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/assets")
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class AssetsController {
     @Resource
     AssetsServiceImpl assetsService;

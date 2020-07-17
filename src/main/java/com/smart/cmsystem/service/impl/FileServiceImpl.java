@@ -23,7 +23,8 @@ public class FileServiceImpl implements FileService {
             file.mkdirs();
         }
 
-        String newFilePath= filePath +fileName; //新文件的路径
+        String newFilePath= filePath +fileName;
+        //得到文件路径
         img=newFilePath;
 
         try {

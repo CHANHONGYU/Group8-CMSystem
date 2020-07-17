@@ -4,6 +4,7 @@ import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Car;
 import com.smart.cmsystem.mapper.CarMapper;
 import com.smart.cmsystem.service.CarService;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +67,7 @@ public class CarServiceImpl implements CarService {
      * 显示所有车辆的信息
      * @return carList:所有车辆的信息
      */
+    @Pointcut
     @Override
     public List<Car> selectAll() {
         return carMapper.selectAll();

@@ -213,7 +213,7 @@
     where owner_id = #{ownerId,jdbcType=INTEGER}
   </update>
   <select id="selectAll" resultMap="BaseResultMap">
-    SELECT *
+    SELECT  *
     FROM owner
     WHERE is_del=1
   </select>

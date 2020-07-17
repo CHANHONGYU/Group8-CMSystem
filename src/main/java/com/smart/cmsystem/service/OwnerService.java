@@ -13,7 +13,7 @@ public interface OwnerService {
      * @return
      */
     List<Owner> searchOwner(Search search);
-                            /**
+    /**
      * 添加新业主信息
      * @param owner
      * @return

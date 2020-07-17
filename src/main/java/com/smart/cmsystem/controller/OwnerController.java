@@ -3,16 +3,15 @@ package com.smart.cmsystem.controller;
 import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Owner;
 import com.smart.cmsystem.service.OwnerService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.smart.cmsystem.utils.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/owner")
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class OwnerController {
     @Resource
     OwnerService ownerService;
@@ -20,12 +19,12 @@ public class OwnerController {
     /**
      * 搜索所需业主信息
      *
-     * @param search
-     * @return
+     * @param search 封装的搜索类
+     * @return ResponseEntity<List<Owner>>
      */
     @RequestMapping("/selectByDate")
-    public List<Owner> selectByDate(@RequestBody Search search){
-        return ownerService.searchOwner(search);
+    public ResponseEntity<List<Owner>>selectByDate(@RequestBody Search search){
+        return ResponseEntity.success(ownerService.searchOwner(search));
     }
     /**
      * 添加一名业主信息
@@ -33,19 +32,21 @@ public class OwnerController {
      * @return
      */
     @RequestMapping("/addOwner")
-    public int addOwner(@RequestBody Owner owner){
+    public ResponseEntity<Integer> addOwner(@RequestBody Owner owner){
         int count = ownerService.addOwner(owner);
-        return count;
+        return ResponseEntity.success(count);
     }
 
     /**
      * 查询所有业主的信息
      * @return
      */
-    @RequestMapping("/selectAll")
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @RequestMapping(method = RequestMethod.POST,value = "/selectAll")
     @ResponseBody
-    public List<Owner> selectAll(){
-        return ownerService.selectAll();
+    public ResponseEntity<List<Owner>> selectAll(){
+        List ownerLis =ownerService.selectAll();
+        return ResponseEntity.success(ownerLis);
     }
 
     /**
@@ -54,9 +55,9 @@ public class OwnerController {
      * @return
      */
     @RequestMapping("/modifyOwner")
-    public int modifyOwner(@RequestBody Owner owner){
+    public ResponseEntity<Integer> modifyOwner(@RequestBody Owner owner){
         int count = ownerService.modifyOwner(owner);
-        return count;
+        return ResponseEntity.success(count);
     }
 
     /**
@@ -66,9 +67,9 @@ public class OwnerController {
      * @return
      */
     @RequestMapping("/delOwner")
-    public int delOwner(@RequestBody Owner owner) {
+    public ResponseEntity<Integer> delOwner(@RequestBody Owner owner) {
         int count = ownerService.delOwner(owner);
-        return count;
+        return ResponseEntity.success(count);
     }
 
     /**
@@ -77,8 +78,8 @@ public class OwnerController {
      * @return
      */
     @RequestMapping("/delOwners")
-    public int delOwners(@RequestBody List<Owner> ownerList){
+    public ResponseEntity<Integer> delOwners(@RequestBody List<Owner> ownerList){
         int count = ownerService.delOwners(ownerList);
-        return count;
+        return ResponseEntity.success(count);
     }
 }
