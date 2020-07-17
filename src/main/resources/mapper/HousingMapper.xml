@@ -3,7 +3,7 @@
 <mapper namespace="com.smart.cmsystem.mapper.HousingMapper">
   <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.Housing">
     <!--@mbg.generated-->
-    <!--@Table housing-->
+
     <id column="h_id" jdbcType="INTEGER" property="hId" />
     <result column="h_coumity_name" jdbcType="VARCHAR" property="hCoumityName" />
     <result column="h_d_name" jdbcType="VARCHAR" property="hDName" />
@@ -16,76 +16,83 @@
     <result column="h_level" jdbcType="INTEGER" property="hLevel" />
     <result column="h_txt" jdbcType="VARCHAR" property="hTxt" />
     <result column="create_time"  jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ending_time"  jdbcType="TIMESTAMP" property="endingTime" />
     <result column="h_status" jdbcType="INTEGER" property="hStatus" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    h_id, h_coumity_name, h_d_name, h_conding, h_name, h_owner_name, h_own_phone, h_home, 
-    h_cell, h_level, h_txt, create_time, h_status, is_del
-  </sql>
 <!--  插入操作-->
-  <insert id="insert"  parameterType="com.smart.cmsystem.domain.entity.Housing" >
+  <insert id="insert">
     <!--@mbg.generated-->
-    insert into housing (h_coumity_name, h_d_name, h_conding,
+    insert into housing (h_coumity_name, h_d_name,housing.h_conding,
     h_name, h_owner_name, h_own_phone,
-    h_home, h_cell, h_level,
-    h_txt
-    )
-    values (#{housing.HCoumityName}, #{housing.hDName} #{housing.hConding},
+    h_home, h_cell, h_level,h_txt)
+    values (#{housing.HCoumityName}, #{housing.hDName} ,#{housing.HConding},
     #{housing.hName}, #{housing.hOwnerName}, #{housing.hOwnPhone},
     #{housing.hHome}, #{housing.hCell}, #{housing.hLevel},
-    #{housing.hTxt}
-    )
+    #{housing.hTxt})
   </insert>
 <!--修改操作-->
   <update id="update" parameterType="com.smart.cmsystem.domain.entity.Housing">
     <!--@mbg.generated-->
     update housing
-
     set housing.h_status=1,
     h_coumity_name = #{housing.hCoumityName},
     h_d_name = #{housing.hDName},
+    housing.h_conding=#{housing.HConding},
     h_name = #{housing.hName},
     h_owner_name = #{housing.hOwnerName},
     h_own_phone = #{housing.hOwnPhone},
     h_home = #{housing.hHome},
     h_cell = #{housing.hCell},
     h_level = #{housing.hLevel},
-    housing.create_time =#{housing.createTime},
-    h_txt = #{housing.hTxt}
+    create_time =#{housing.createTime},
+    h_txt = #{housing.hTxt},
+    ending_time =#{housing.endingTime}
     where h_id = #{housing.hId}
   </update>
 <!--  单个删除-->
   <update id="delete">
     update group8cmsystem.housing
     set  housing.is_del=1
-      where h_id =#{housing.hId}
+      where h_id =#{hId}
   </update>
 <!--  批量删除-->
-  <update id="updateHousing">
+  <update id="deleteHousing" >
     update  group8cmsystem.housing
-    set  housing.is_del=1
-    WHERE housing.h_id IN
-    <foreach collection="hIds" separator="," open="(" close=")" item="id">
-      #{id}
+    set  is_del=1
+    WHERE h_id IN
+    <foreach collection="hIds" separator="," open="(" close=")" item="hId">
+      #{hId}
     </foreach>
-    and housing.is_del=0
+    and is_del=0
   </update>
 <!--  查找-->
   <select id="selectAll" resultMap="BaseResultMap">
     select *
     from group8cmsystem.housing
-    <trim prefix="where" prefixOverrides="AND">
-      <if test ="keyWord != null">
-        AND(housing.h_owner_name like concat('%',#{keyWord},'%')
-        or housing.h_own_phone like concat('%',#{keyWord},'%'))
+    where
+    <trim  prefixOverrides="AND">
+      <if test ="keyWord != null and keyWord != ''">
+        h_coumity_name like concat('%',#{keyWord},'%')
+        or  h_d_name like concat('%',#{keyWord},'%')
+        or h_conding like  concat('%',#{keyWord},'%')
+       or h_name like concat('%',#{keyWord},'%')
+        or h_owner_name like concat('%',#{keyWord},'%')
+        or h_own_phone like concat('%',#{keyWord},'%')
+        or h_home like concat('%',#{keyWord},'%')
+        or   h_cell like concat('%',#{keyWord},'%')
+        or  h_level like concat('%',#{keyWord},'%')
       </if>
-      <if test="creatTime != null">
-        AND housing.create_time between concat(#{creatTime},'00:00:00')
-        and concat(#{creatTime},'23:59:59')
+      <if test="create_time != null and ending_time != null" >
+     and    create_time between #{create_time} AND #{ending_time}
       </if>
+      <if test="create_time != null">
+    and     create_time = #{create_time,jdbcType=TIMESTAMP}
+      </if>
+<if test="ending_time != null">
+   and ending_time =#{ending_time,jdbcType=TIMESTAMP}
+</if>
     </trim>
+    LIMIT  #{limit},#{offset}
   </select>
-
 </mapper>

@@ -1,5 +1,6 @@
 package com.smart.cmsystem.domain.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -7,8 +8,8 @@ import lombok.Data;
     * 收费表
     */
 @Data
-public class Money {
-    private Integer monId;
+public class Money implements Serializable {
+    private Integer mId;
 
     /**
     * 收取金额小区名字
@@ -28,17 +29,12 @@ public class Money {
     /**
     * 创建时间
     */
-    private Date createTime;
+    private String  createTime;
 
     /**
-    * 1表示修改  0表示删除
+    * 截止时间
     */
-    private Integer monStatus;
-
-    /**
-    * 收费详情Id
-    */
-    private Integer monDetId;
+    private String   endingTime;
 
     /**
     * 0代表未修改 1代表修改

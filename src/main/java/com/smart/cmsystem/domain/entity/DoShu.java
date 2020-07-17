@@ -1,5 +1,6 @@
 package com.smart.cmsystem.domain.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import lombok.Data;
     * 栋数表
     */
 @Data
-public class DoShu {
+public class DoShu implements Serializable {
     /**
     * 栋数Id
     */
@@ -31,7 +32,7 @@ public class DoShu {
     /**
     * 总户数
     */
-    private Long dSum;
+    private Integer dSum;
 
     /**
     * 描述
@@ -41,8 +42,8 @@ public class DoShu {
     /**
     * 注册时间
     */
-    private Date createTime;
-
+    private String  createTime;
+    private  String endingTime;
     /**
     * 0代表未修改  1代表修改
     */

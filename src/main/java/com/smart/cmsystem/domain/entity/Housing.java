@@ -1,5 +1,6 @@
 package com.smart.cmsystem.domain.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import lombok.Data;
     * 房产表
     */
 @Data
-public class Housing {
+public class Housing implements Serializable {
     /**
     * 房产id
     */
@@ -66,8 +67,8 @@ public class Housing {
     /**
     * 注册时间
     */
-    private Date createTime;
-
+    private String  createTime;
+private  String endingTime;
     /**
     * 0表示未修改  1表示修改
     */

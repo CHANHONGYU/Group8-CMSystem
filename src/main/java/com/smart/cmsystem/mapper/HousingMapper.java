@@ -19,13 +19,13 @@ public interface HousingMapper {
      * 修改
      *
      */
-    int update(@Param("housing")Housing housing);
+    int update(@Param("housing") Housing housing);
     /**
      * 单个删除用户
-     * @param housing
+     * @param
      * @return
      */
-    int delete(@Param("housing") Housing housing);
+    int delete(@Param("hId") int hId);
 
 //    /**
 //     *通过房产编号查询用户
@@ -33,11 +33,16 @@ public interface HousingMapper {
 //    Housing selectByhConding(@Param("hConding") String hConding);
     /**
      * 批量删除
+     * @param hIds
      */
-    int updateHousing(@Param("hIds") List<Integer>hIds);
+    int deleteHousing(@Param("hIds") List<Integer> hIds);
     /**
      * 全部查找
      * 根据户主名字  户主的手机号
      */
-    List<Housing> selectAll(@Param("keyWord")String keyWord, @Param("creatTime") String  creatTime);
+    List<Housing> selectAll(@Param("keyWord") String keyWord,
+                            @Param("create_time") String createTime,
+                            @Param("ending_time") String endingTime,
+                            @Param("limit") int limit,
+                            @Param("offset") int offset);
 }

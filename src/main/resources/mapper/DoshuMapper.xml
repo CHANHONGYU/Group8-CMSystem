@@ -2,79 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.cmsystem.mapper.DoShuMapper">
   <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.DoShu">
-    <!--@mbg.generated-->
     <!--@Table doshu-->
     <id column="d_id" jdbcType="INTEGER" property="dId" />
     <result column="d_coumity_name" jdbcType="VARCHAR" property="dCoumityName" />
     <result column="d_coding" jdbcType="VARCHAR" property="dCoding" />
     <result column="d_name" jdbcType="VARCHAR" property="dName" />
-    <result column="d_sum" jdbcType="DECIMAL" property="dSum" />
+    <result column="d_sum" jdbcType="INTEGER" property="dSum" />
     <result column="d_txt" jdbcType="VARCHAR" property="dTxt" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ending_time"  jdbcType="TIMESTAMP" property="endingTime" />
     <result column="d_status" jdbcType="INTEGER" property="dStatus" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
-  <sql id="Base_Column_List">
+
+<!--  插入-->
+  <insert id="insert"  >
     <!--@mbg.generated-->
-    d_id, d_coumity_name, d_coding, d_name, d_sum, d_txt, create_time, d_status, is_del
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from doshu
-    where d_id = #{dId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from doshu
-    where d_id = #{dId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert"  parameterType="com.smart.cmsystem.domain.entity.DoShu">
-    <!--@mbg.generated-->
-    insert into doshu (d_coumity_name,  d_name,
-      d_sum, d_txt)
-    values (#{doShu.dCoumityName,jdbcType=VARCHAR},  #{doShu.dName,jdbcType=VARCHAR},
-      #{doShu.dSum,jdbcType=DECIMAL}, #{doShu.dTxt,jdbcType=VARCHAR})
+    insert into doshu(doshu.d_coumity_name,doshu.d_coding,doshu.d_name,
+    doshu.d_sum,doshu.d_txt)
+    values(#{doShu.dCoumityName},#{doShu.dCoding},#{doShu.dName},#{doShu.dSum},#{doShu.dTxt})
 
   </insert>
+<!--  修改-->
   <update id="update">
     update  group8cmsystem.doshu
     set  doshu.d_status=1,
       doshu.d_coumity_name=#{doShu.dCoumityName},
+    doshu.d_coding=#{doShu.dCoding},
     doshu.d_name=#{doShu.dName},
     doshu.d_sum=#{doShu.DSum},
     doshu.d_txt=#{doShu.dTxt}
     where doshu.d_id=#{doShu.DId}
-
-
   </update>
+<!--  删除-->
   <update id="delete">
     update  group8cmsystem.doshu
     set doshu.is_del=1
-    where doshu.d_id=#{doshu.DId}
+    where doshu.d_id=#{dId}
   </update>
-  <update id="updateDoShu">
+<!-- 批量删除-->
+  <update id="deleteDoShus">
     update  group8cmsystem.doshu
-    set doshu.is_del=1
+    set is_del=1
     where doshu.d_id IN
-    <foreach collection="dIds" separator="," open="("close=")" item="id">
-      #{id}
+    <foreach collection="dIds" separator="," open="(" close=")" item="dId">
+      #{dId}
     </foreach>
  and  doshu.is_del=0
   </update>
+<!--  查找-->
   <select id="selectAll" resultMap="BaseResultMap">
     select  *
     from  group8cmsystem.doshu
-    <trim prefix="where" prefixOverrides="AND">
+    where
+    <trim prefixOverrides="AND">
       <if test="keyWord != null">
-        AND(doshu.d_name like concat('%',#{keyWord},'%'))
+        d_coumity_name like concat('%',#{keyWord},'%')
+         or  d_coding like  concat('%',#{keyWord},'%')
+       or d_name like concat('%',#{keyWord},'%')
+        or d_sum like concat('%',#{keyWord},'%')
+        or d_txt  like concat('%',#{keyWord},'%')
       </if>
-      <if test="creatTime != null">
-        AND doshu.create_time between concat(#{creatTime},'00:00:00')
-        and concat(#{creatTime},'23:59:59')
+    <if test="create_time != null and ending_time != null" >
+      and create_time between #{create_time} AND #{ending_time}
+    </if>
+      <if test="create_time != null">
+        and     create_time = #{create_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ending_time != null">
+        and ending_time =#{ending_time,jdbcType=TIMESTAMP}
       </if>
     </trim>
+    LIMIT  #{limit},#{offset}
   </select>
-
 </mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.cmsystem.mapper.MoneyDetailMapper">
+  <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.MoneyDetail">
+    <!--@mbg.generated-->
+    <id column="mon_det_id" jdbcType="INTEGER" property="mdId" />
+    <result column="mon_coumity_name" jdbcType="VARCHAR" property="monCoumityName" />
+    <result column="mon_det_project" jdbcType="VARCHAR" property="monDetProject" />
+    <result column="owner_name" jdbcType="VARCHAR" property="ownerName" />
+    <result column="mon_receivable" jdbcType="DECIMAL" property="monReceivable" />
+    <result column="mon_final" jdbcType="DECIMAL" property="monFinal" />
+    <result column="mon_text" jdbcType="VARCHAR" property="monText" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="ending_time" jdbcType="TIMESTAMP" property="endingTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="mon_status" jdbcType="INTEGER" property="monStatus" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    mon_det_id, mon_coumity_name, mon_det_project, owner_name, mon_receivable, mon_final, 
+    mon_text, update_time, ending_time, create_time, mon_status, is_del
+  </sql>
+
+  <insert id="insert">
+    <!--@mbg.generated-->
+    insert into moneydetail (mon_coumity_name, mon_det_project, owner_name, 
+      mon_receivable, mon_final, mon_text, 
+      update_time)
+    values (#{moneyDetail.monCoumityName}, #{moneyDetail.monDetProject}, #{moneyDetail.ownerName},
+      #{moneyDetail.monReceivable}, #{moneyDetail.monFinal}, #{moneyDetail.monText},
+      #{moneyDetail.updateTime})
+  </insert>
+  <update id="update" >
+    <!--@mbg.generated-->
+    update moneydetail
+    set moneydetail.mon_status=1,
+        mon_coumity_name = #{moneyDetail.monCoumityName},
+        mon_det_project = #{moneyDetail.monDetProject},
+        owner_name = #{moneyDetail.ownerName},
+        mon_receivable = #{moneyDetail.monReceivable},
+        mon_final = #{moneyDetail.monFinal},
+        mon_text = #{moneyDetail.monText},
+        update_time = #{moneyDetail.updateTime}
+    where moneydetail.mon_det_id = #{moneyDetail.mdId}
+  </update>
+  <update id="delete">
+    update moneydetail
+    set is_del = 1
+    where mon_det_id = #{mdId}
+  </update>
+  <update id="deleteMoneyDetail">
+    update  group8cmsystem.moneydetail
+    set  moneydetail.is_del =1
+    where moneydetail.mon_det_id  IN
+    <foreach collection="mdIds" separator="," open="(" close=")" item="mdId">
+      #{mdId}
+    </foreach>
+    and moneydetail.is_del =0;
+  </update>
+  <select id="selectAll" resultType="com.smart.cmsystem.domain.entity.MoneyDetail">
+    select  *
+    from  group8cmsystem.moneydetail
+    where
+    <trim prefixOverrides="AND">
+      <if test="keyWord != null and keyWord != ''">
+    moneydetail.mon_coumity_name like concat('%',#{keyWord},'%')
+        or moneydetail.mon_det_project like concat('%',#{keyWord},'%')
+        or moneydetail.owner_name like  concat('%',#{keyWord},'%')
+        or moneydetail.mon_receivable like  concat('%',#{keyWord},'%')
+        or moneydetail.mon_final like concat('%',#{keyWord},'%')
+        or moneydetail.mon_text like concat('%',#{keyWord},'%')
+
+        </if>
+      <if test="update_time != null">
+        and     update_time = #{update_time,jdbcType=TIMESTAMP}
+      </if>
+    <if test="create_time != null and ending_time != null" >
+      and    create_time between #{create_time} AND #{ending_time}
+    </if>
+    <if test="create_time != null">
+      and     create_time = #{create_time,jdbcType=TIMESTAMP}
+    </if>
+    <if test="ending_time != null">
+      and ending_time =#{ending_time,jdbcType=TIMESTAMP}
+    </if>
+  </trim>
+  LIMIT  #{limit},#{offset}
+  </select>
+</mapper>

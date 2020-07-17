@@ -4,26 +4,68 @@
   <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.Money">
     <!--@mbg.generated-->
     <!--@Table money-->
-    <id column="mon_id" jdbcType="INTEGER" property="monId" />
+    <id column="mon_id" jdbcType="INTEGER" property="mId" />
     <result column="m_coumity_name" jdbcType="VARCHAR" property="mCoumityName" />
     <result column="mon_conding" jdbcType="VARCHAR" property="monConding" />
     <result column="mon_project" jdbcType="VARCHAR" property="monProject" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="mon_status" jdbcType="INTEGER" property="monStatus" />
-    <result column="mon_det_id" jdbcType="INTEGER" property="monDetId" />
+    <result column="ending_time" jdbcType="TIMESTAMP" property="endingTime" />
     <result column="m_status" jdbcType="INTEGER" property="mStatus" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    mon_id, m_coumity_name, mon_conding, mon_project, create_time, mon_status, mon_det_id, 
-    m_status, is_del
+    mon_id, m_coumity_name, mon_conding, mon_project, create_time, ending_time, m_status, 
+    is_del
   </sql>
   <insert id="insert">
-  insert into  group8cmsystem.money(money.m_coumity_name,
-  money.mon_project,)
-
-
+    insert into group8cmsystem.money(money.m_coumity_name, money.mon_conding, money.mon_project)
+      values (#{money.mCoumityName},#{money.monConding},#{money.monProject}
+    )
   </insert>
+  <update id="update">
+    update group8cmsystem.money
+    set money.m_status =1,
+      money.m_coumity_name = #{money.mCoumityName},
+    money.mon_conding = #{money.monConding},
+    money.mon_project =#{money.monProject}
+    where money.mon_id =#{money.MId}
+  </update>
+  <update id="delete">
+    update  group8cmsystem.money
+    set money.is_del = 1
+    where money.mon_id =#{mId}
+  </update>
+  <update id="deleteMoneys">
+    update  group8cmsystem.money
+    set money.is_del =1
+    where money.mon_id IN
+    <foreach collection="mIds" separator="," open="(" close=")" item="mId">
+      #{mId}
+    </foreach>
+    and money.is_del=0
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select  *
+    from group8cmsystem.money
+    where
+    <trim prefixOverrides="AND">
+      <if test="keyWord != null and keyWord != ''">
+        money.m_coumity_name like concat('%',#{keyWord},'%')
+        or money.mon_conding like concat('%',#{keyWord},'%')
+        or money.mon_project like concat('%',#{keyWord},'%')
+      </if>
+      <if test="create_time != null and ending_time != null" >
+        and create_time between #{create_time} AND #{ending_time}
+      </if>
+      <if test="create_time != null">
+        and     create_time = #{create_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ending_time != null">
+        and ending_time =#{ending_time,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+    limit #{limit},#{offset}
+  </select>
 
 </mapper>

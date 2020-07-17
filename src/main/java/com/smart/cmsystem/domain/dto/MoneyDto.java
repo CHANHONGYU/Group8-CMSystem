@@ -1,10 +1,17 @@
 package com.smart.cmsystem.domain.dto;
 
+import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
+
+@Data
 public class MoneyDto {
-    //搜索关键字  项目名称
-    private  String keyWord;
-    private Integer monId;
-    private  String monProject;
-    private  String  creatTime;
-    private MoneyDetailDto moneydetailDto;
+private  Integer mId;
+  private  String  mCoumityName;
+  private  String monCoding;
+    private String monProject;
+    private String  createTime;
+    private  String  endingTime;
+  private  Integer dStatus;
 }

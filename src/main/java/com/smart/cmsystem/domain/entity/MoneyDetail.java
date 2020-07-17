@@ -1,18 +1,20 @@
 package com.smart.cmsystem.domain.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.stereotype.Service;
 
 /**
     * 收费详情表
     */
 @Data
-public class MoneyDetail {
+public class MoneyDetail implements Serializable {
     /**
     * 收费详情id
     */
-    private Integer monDetId;
+    private Integer mdId;
 
     /**
     * 小区名字
@@ -20,7 +22,7 @@ public class MoneyDetail {
     private String monCoumityName;
 
     /**
-    * 收费项目Id
+    * 收费项目
     */
     private String monDetProject;
 
@@ -47,12 +49,17 @@ public class MoneyDetail {
     /**
     * 缴费时间
     */
-    private Date updateTime;
+    private Date  updateTime;
+
+    /**
+    * 截止时间
+    */
+    private String endingTime;
 
     /**
     * 创建时间
     */
-    private Date createTime;
+    private String createTime;
 
     /**
     *  0代表未修改 1代表修改
@@ -63,9 +70,4 @@ public class MoneyDetail {
     * 0代表未删除 1代表删除
     */
     private Integer isDel;
-
-    /**
-    * 收费表Id
-    */
-    private Integer monId;
 }
