@@ -1,6 +1,7 @@
 package com.smart.cmsystem.mapper;
 
 import com.smart.cmsystem.domain.entity.Activities;
+import com.smart.cmsystem.exception.DaoException;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface ActivitiesMapper {
     List<Activities> selectAll(@Param("keyword")String keyword,@Param("start_time") String startTime,@Param("end_time") String endTime,@Param("limit") int limit,@Param("offset") int offset);
-    int deleteActivities(@Param("actIds") List<Integer> actIds);
+    int deleteActivities(@Param("actIds") List<Integer> actIds) throws DaoException;
     int saveActivities(@Param("activities") Activities activities);
     int updateActivities(@Param("act")Activities activities);
 }

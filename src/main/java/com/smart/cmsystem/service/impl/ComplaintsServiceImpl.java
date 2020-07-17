@@ -5,6 +5,7 @@ import com.smart.cmsystem.domain.dto.MaintainDto;
 import com.smart.cmsystem.domain.entity.Activities;
 import com.smart.cmsystem.domain.entity.Complaints;
 import com.smart.cmsystem.exception.DaoException;
+import com.smart.cmsystem.exception.ServiceException;
 import com.smart.cmsystem.mapper.ComplaintsMapper;
 import com.smart.cmsystem.service.ComplaintsService;
 import com.smart.cmsystem.utils.ErrorStatus;
@@ -29,7 +30,7 @@ public class ComplaintsServiceImpl implements ComplaintsService {
      * @return
      */
     @Override
-    public List<ComplaintsDto> selectAllComplaintsByKey(String keyword, String startTime, String endTime, int limit, int offset) {
+    public List<ComplaintsDto> selectAllComplaintsByKey(String keyword, String startTime, String endTime, int limit, int offset) throws ServiceException{
         List<Complaints> complaints = complaintsMapper.selectAll(keyword, startTime, endTime, limit, offset);
         List<ComplaintsDto> complaintsDtos=new ArrayList<>();
         for (Complaints complaint : complaints) {
@@ -46,7 +47,7 @@ public class ComplaintsServiceImpl implements ComplaintsService {
 
     @Override
     @Transactional
-    public ResponseEntity deleteComplaintsById(List<Integer> comIds) {
+    public ResponseEntity deleteComplaintsById(List<Integer> comIds) throws ServiceException {
 
         if (comIds.size()>0){
             int i = complaintsMapper.deleteComplaintsById(comIds);
@@ -62,7 +63,7 @@ public class ComplaintsServiceImpl implements ComplaintsService {
     }
 
     @Override
-    public ResponseEntity saveComplaint(ComplaintsDto complaintsDto) {
+    public ResponseEntity saveComplaint(ComplaintsDto complaintsDto) throws ServiceException{
         if (complaintsDto!=null){
             Complaints complaints=new Complaints();
             BeanUtils.copyProperties(complaintsDto,complaints);
@@ -77,7 +78,7 @@ public class ComplaintsServiceImpl implements ComplaintsService {
     }
 
     @Override
-    public ResponseEntity updateComplaint(ComplaintsDto complaintsDto) {
+    public ResponseEntity updateComplaint(ComplaintsDto complaintsDto) throws ServiceException{
         if (complaintsDto!=null){
             Complaints complaints=new Complaints();
             BeanUtils.copyProperties(complaintsDto,complaints);

@@ -3,6 +3,7 @@ package com.smart.cmsystem.controller;
 
 import com.smart.cmsystem.domain.dto.ComplaintsDto;
 import com.smart.cmsystem.domain.dto.MaintainDto;
+import com.smart.cmsystem.exception.ServiceException;
 import com.smart.cmsystem.service.ComplaintsService;
 import com.smart.cmsystem.utils.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class ComplaintsController {
      * @return
      */
     @PutMapping(value = "deleteComplaint", produces = {"application/json"})
-    public ResponseEntity deleteComplaint(@RequestBody List<Integer> comIds) {
+    public ResponseEntity deleteComplaint(@RequestBody List<Integer> comIds) throws ServiceException {
         ResponseEntity responseEntity = complaintsService.deleteComplaintsById(comIds);
         return responseEntity;
     }
@@ -41,7 +42,7 @@ public class ComplaintsController {
      * 添加一个投诉建议
      */
     @PostMapping(value = "saveComplaint", produces = {"application/json"})
-    public ResponseEntity saveComplaints(@RequestBody ComplaintsDto complaintsDto) {
+    public ResponseEntity saveComplaints(@RequestBody ComplaintsDto complaintsDto) throws ServiceException {
         ResponseEntity responseEntity = complaintsService.saveComplaint(complaintsDto);
         return responseEntity;
     }
@@ -49,7 +50,7 @@ public class ComplaintsController {
      * 修改信息
      */
     @PutMapping(value = "updateComplaint",produces = {"application/json;charset=UTF-8"})
-    public ResponseEntity updateComplaint(@RequestBody ComplaintsDto complaintsDto){
+    public ResponseEntity updateComplaint(@RequestBody ComplaintsDto complaintsDto) throws ServiceException {
         ResponseEntity responseEntity = complaintsService.updateComplaint(complaintsDto);
         return responseEntity;
     }
