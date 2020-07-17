@@ -212,13 +212,22 @@
       is_del = #{isDel,jdbcType=INTEGER}
     where owner_id = #{ownerId,jdbcType=INTEGER}
   </update>
+  <!--搜索所有的业主-->
   <select id="selectAll" resultMap="BaseResultMap">
-    SELECT  *
+    SELECT  owner_id,owner_community_id, owner_house_id, owner_name,
+            owner_pic, owner_no, owner_connect,
+            owner_work, owner_birth, owner_gender,
+            owner_type, owner_remarks, creat_time,
+            update_time,is_del
     FROM owner
     WHERE is_del=1
   </select>
   <select id="selectAllByDate" resultMap="BaseResultMap">
-    select *
+    select owner_id,owner_community_id, owner_house_id, owner_name,
+    owner_pic, owner_no, owner_connect,
+    owner_work, owner_birth, owner_gender,
+    owner_type, owner_remarks, creat_time,
+    update_time,is_del
     from owner
     <trim prefix="where" prefixOverrides="or">
       <if test="search.ownerName!=null ">
@@ -233,12 +242,12 @@
       <if test="search.startDay==null and search.endDay!=null ">
         and #{search.endDay,jdbcType=TIMESTAMP} > owner_birth
       </if>
+      <if test="search.startDay==null and search.endDay==null and search.ownerName==null ">
+        and 1=1
+      </if>
       <if test="1==1">
         and is_del=1
       </if>
     </trim>
-<!--    owner_birth BETWEEN #{search.startDay} AND #{search.endDay}-->
-<!--    AND owner_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1-->
-
   </select>
 </mapper>
