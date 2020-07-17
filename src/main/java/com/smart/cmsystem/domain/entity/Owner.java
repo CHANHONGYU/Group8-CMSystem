@@ -14,7 +14,7 @@ public class Owner {
     /**
     * 所属小区id
     */
-    private Integer ownerCommunityId;
+    private String ownerCommunityId;
 
     /**
     * 业主房产id

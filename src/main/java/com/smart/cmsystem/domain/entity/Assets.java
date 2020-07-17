@@ -14,7 +14,7 @@ public class Assets {
     /**
     * 所属小区id
     */
-    private Integer communityId;
+    private String communityId;
 
     /**
     * 设备编号

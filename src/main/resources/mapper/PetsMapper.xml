@@ -140,4 +140,33 @@
       is_del = #{isDel,jdbcType=INTEGER}
     where pets_id = #{petsId,jdbcType=INTEGER}
   </update>
+  <select id="selectAllByDate" resultMap="BaseResultMap">
+    select *
+    from pets
+    <trim prefix="where" prefixOverrides="or">
+      <if test="search.ownerName!=null ">
+        or pets_type like concat(concat('%',#{search.ownerName},'%'))
+      </if>
+      <if test="search.startDay!=null and search.endDay!=null ">
+        and pets_adoption between #{search.startDay} AND #{search.endDay}
+      </if>
+      <if test="search.startDay!=null and search.endDay==null ">
+        and pets_adoption > #{search.startDay,jdbcType=TIMESTAMP}
+      </if>
+      <if test="search.startDay==null and search.endDay!=null ">
+        and #{search.endDay,jdbcType=TIMESTAMP} > pets_adoption
+      </if>
+      <if test="1==1">
+        and is_del=1
+      </if>
+    </trim>
+    <!--    owner_birth BETWEEN #{search.startDay} AND #{search.endDay}-->
+    <!--    AND owner_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1-->
+
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from pets
+    where is_del=1
+  </select>
 </mapper>

@@ -5,7 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table `owner`-->
     <id column="owner_id" jdbcType="INTEGER" property="ownerId" />
-    <result column="owner_community_id" jdbcType="INTEGER" property="ownerCommunityId" />
+    <result column="owner_community_id" jdbcType="VARCHAR" property="ownerCommunityId" />
     <result column="owner_house_id" jdbcType="INTEGER" property="ownerHouseId" />
     <result column="owner_name" jdbcType="VARCHAR" property="ownerName" />
     <result column="owner_pic" jdbcType="VARCHAR" property="ownerPic" />
@@ -46,7 +46,7 @@
       owner_work, owner_birth, owner_gender, 
       owner_type, owner_remarks, creat_time, 
       update_time, is_del)
-    values (#{ownerCommunityId,jdbcType=INTEGER}, #{ownerHouseId,jdbcType=INTEGER}, #{ownerName,jdbcType=VARCHAR}, 
+    values (#{ownerCommunityId,jdbcType=VARCHAR}, #{ownerHouseId,jdbcType=INTEGER}, #{ownerName,jdbcType=VARCHAR},
       #{ownerPic,jdbcType=VARCHAR}, #{ownerNo,jdbcType=VARCHAR}, #{ownerConnect,jdbcType=VARCHAR}, 
       #{ownerWork,jdbcType=VARCHAR}, #{ownerBirth,jdbcType=DATE}, #{ownerGender,jdbcType=VARCHAR}, 
       #{ownerType,jdbcType=INTEGER}, #{ownerRemarks,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
@@ -101,7 +101,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="ownerCommunityId != null">
-        #{ownerCommunityId,jdbcType=INTEGER},
+        #{ownerCommunityId,jdbcType=VARCHAR},
       </if>
       <if test="ownerHouseId != null">
         #{ownerHouseId,jdbcType=INTEGER},
@@ -149,7 +149,7 @@
     update `owner`
     <set>
       <if test="ownerCommunityId != null">
-        owner_community_id = #{ownerCommunityId,jdbcType=INTEGER},
+        owner_community_id = #{ownerCommunityId,jdbcType=VARCHAR},
       </if>
       <if test="ownerHouseId != null">
         owner_house_id = #{ownerHouseId,jdbcType=INTEGER},
@@ -196,7 +196,7 @@
   <update id="updateByPrimaryKey" parameterType="com.smart.cmsystem.domain.entity.Owner">
     <!--@mbg.generated-->
     update `owner`
-    set owner_community_id = #{ownerCommunityId,jdbcType=INTEGER},
+    set owner_community_id = #{ownerCommunityId,jdbcType=VARCHAR},
       owner_house_id = #{ownerHouseId,jdbcType=INTEGER},
       owner_name = #{ownerName,jdbcType=VARCHAR},
       owner_pic = #{ownerPic,jdbcType=VARCHAR},
@@ -212,17 +212,42 @@
       is_del = #{isDel,jdbcType=INTEGER}
     where owner_id = #{ownerId,jdbcType=INTEGER}
   </update>
+  <!--搜索所有的业主-->
   <select id="selectAll" resultMap="BaseResultMap">
-    SELECT *
+    SELECT  owner_id,owner_community_id, owner_house_id, owner_name,
+            owner_pic, owner_no, owner_connect,
+            owner_work, owner_birth, owner_gender,
+            owner_type, owner_remarks, creat_time,
+            update_time,is_del
     FROM owner
     WHERE is_del=1
   </select>
   <select id="selectAllByDate" resultMap="BaseResultMap">
-    select *
+    select owner_id,owner_community_id, owner_house_id, owner_name,
+    owner_pic, owner_no, owner_connect,
+    owner_work, owner_birth, owner_gender,
+    owner_type, owner_remarks, creat_time,
+    update_time,is_del
     from owner
-    where
-    owner_birth BETWEEN #{search.startDay} AND #{search.endDay}
-    AND owner_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1
-
+    <trim prefix="where" prefixOverrides="or">
+      <if test="search.ownerName!=null ">
+       or owner_name like concat(concat('%',#{search.ownerName},'%'))
+      </if>
+      <if test="search.startDay!=null and search.endDay!=null ">
+        and owner_birth between #{search.startDay} AND #{search.endDay}
+      </if>
+      <if test="search.startDay!=null and search.endDay==null ">
+        and owner_birth > #{search.startDay,jdbcType=TIMESTAMP}
+      </if>
+      <if test="search.startDay==null and search.endDay!=null ">
+        and #{search.endDay,jdbcType=TIMESTAMP} > owner_birth
+      </if>
+      <if test="search.startDay==null and search.endDay==null and search.ownerName==null ">
+        and 1=1
+      </if>
+      <if test="1==1">
+        and is_del=1
+      </if>
+    </trim>
   </select>
 </mapper>

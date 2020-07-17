@@ -1,6 +1,10 @@
 package com.smart.cmsystem.mapper;
 
+import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Pets;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PetsMapper {
     int deleteByPrimaryKey(Integer petsId);
@@ -14,4 +18,8 @@ public interface PetsMapper {
     int updateByPrimaryKeySelective(Pets record);
 
     int updateByPrimaryKey(Pets record);
+
+    List<Pets> selectAllByDate(@Param("search") Search search);
+
+    List<Pets> selectAll();
 }

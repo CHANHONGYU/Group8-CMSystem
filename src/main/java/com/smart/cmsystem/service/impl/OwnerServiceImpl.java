@@ -3,6 +3,7 @@ package com.smart.cmsystem.service.impl;
 import com.smart.cmsystem.domain.dto.Search;
 import com.smart.cmsystem.domain.entity.Owner;
 import com.smart.cmsystem.mapper.OwnerMapper;
+import com.smart.cmsystem.service.FileService;
 import com.smart.cmsystem.service.OwnerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import java.util.List;
 public class OwnerServiceImpl implements OwnerService {
     @Resource
     OwnerMapper ownerMapper;
+    @Resource
+    FileService fileService;
     /**
      * 搜索所需业主信息
      *
@@ -22,7 +25,7 @@ public class OwnerServiceImpl implements OwnerService {
      */
     @Override
     public List<Owner> searchOwner(Search search) {
-        return null;
+        return ownerMapper.selectAllByDate(search);
     }
 
     /**

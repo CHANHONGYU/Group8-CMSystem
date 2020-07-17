@@ -5,7 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table assets-->
     <id column="assets_id" jdbcType="INTEGER" property="assetsId" />
-    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="community_id" jdbcType="VARCHAR" property="communityId" />
     <result column="assets_no" jdbcType="VARCHAR" property="assetsNo" />
     <result column="assets_name" jdbcType="VARCHAR" property="assetsName" />
     <result column="assets_brand" jdbcType="VARCHAR" property="assetsBrand" />
@@ -39,7 +39,7 @@
       assets_brand, assets_price, assets_number, 
       assets_buytime, assets_life, create_time, 
       is_del)
-    values (#{communityId,jdbcType=INTEGER}, #{assetsNo,jdbcType=VARCHAR}, #{assetsName,jdbcType=VARCHAR}, 
+    values (#{communityId,jdbcType=VARCHAR}, #{assetsNo,jdbcType=VARCHAR}, #{assetsName,jdbcType=VARCHAR}, 
       #{assetsBrand,jdbcType=VARCHAR}, #{assetsPrice,jdbcType=DECIMAL}, #{assetsNumber,jdbcType=INTEGER}, 
       #{assetsBuytime,jdbcType=DATE}, #{assetsLife,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{isDel,jdbcType=INTEGER})
@@ -81,7 +81,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="communityId != null">
-        #{communityId,jdbcType=INTEGER},
+        #{communityId,jdbcType=VARCHAR},
       </if>
       <if test="assetsNo != null">
         #{assetsNo,jdbcType=VARCHAR},
@@ -117,7 +117,7 @@
     update assets
     <set>
       <if test="communityId != null">
-        community_id = #{communityId,jdbcType=INTEGER},
+        community_id = #{communityId,jdbcType=VARCHAR},
       </if>
       <if test="assetsNo != null">
         assets_no = #{assetsNo,jdbcType=VARCHAR},
@@ -152,7 +152,7 @@
   <update id="updateByPrimaryKey" parameterType="com.smart.cmsystem.domain.entity.Assets">
     <!--@mbg.generated-->
     update assets
-    set community_id = #{communityId,jdbcType=INTEGER},
+    set community_id = #{communityId,jdbcType=VARCHAR},
       assets_no = #{assetsNo,jdbcType=VARCHAR},
       assets_name = #{assetsName,jdbcType=VARCHAR},
       assets_brand = #{assetsBrand,jdbcType=VARCHAR},
@@ -164,4 +164,33 @@
       is_del = #{isDel,jdbcType=INTEGER}
     where assets_id = #{assetsId,jdbcType=INTEGER}
   </update>
+    <select id="selectAllByDate" resultMap="BaseResultMap">
+      select *
+      from assets
+      <trim prefix="where" prefixOverrides="or">
+        <if test="search.ownerName!=null ">
+          or assets_name like concat(concat('%',#{search.ownerName},'%'))
+        </if>
+        <if test="search.startDay!=null and search.endDay!=null ">
+          and assets_buytime between #{search.startDay} AND #{search.endDay}
+        </if>
+        <if test="search.startDay!=null and search.endDay==null ">
+          and assets_buytime > #{search.startDay,jdbcType=TIMESTAMP}
+        </if>
+        <if test="search.startDay==null and search.endDay!=null ">
+          and #{search.endDay,jdbcType=TIMESTAMP} > assets_buytime
+        </if>
+        <if test="1==1">
+          and is_del=1
+        </if>
+      </trim>
+<!--      assets_buytime BETWEEN #{search.startDay} AND #{search.endDay}-->
+<!--      AND assets_name like concat(concat('%',#{search.ownerName},'%')) and is_del=1-->
+
+    </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from assets
+    where is_del=1
+  </select>
 </mapper>

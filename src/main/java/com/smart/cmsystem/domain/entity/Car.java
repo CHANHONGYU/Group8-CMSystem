@@ -26,7 +26,7 @@ public class Car {
     private String carColor;
 
     /**
-    * 杞︾墝鍙风爜
+    * 车牌号
     */
     private String carNo;
 
