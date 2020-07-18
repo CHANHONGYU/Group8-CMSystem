@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.cmsystem.mapper.PrivilegeMapper">
+  <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.Privilege">
+    <!--@mbg.generated-->
+    <!--@Table privilege-->
+    <id column="p_id" jdbcType="INTEGER" property="pId" />
+    <result column="p_role" jdbcType="VARCHAR" property="pRole" />
+    <result column="p_name" jdbcType="VARCHAR" property="pName" />
+    <result column="p_level" jdbcType="VARCHAR" property="pLevel" />
+    <result column="p_creationtime" jdbcType="TIMESTAMP" property="pCreationtime" />
+    <result column="p_state" jdbcType="INTEGER" property="pState" />
+    <result column="p_del" jdbcType="INTEGER" property="pDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    p_id, p_role, p_name, p_level, p_creationtime, p_state, p_del
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from privilege p
+    where p.p_del=1
+    limit #{page},#{size}
+  </select>
+    <select id="selectBykeyword" resultMap="BaseResultMap">
+      select p.p_id, p_role, p_name, p_level, p_creationtime, p_state, p_del
+      from privilege p
+      <trim prefix="where">
+        p.p_role like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        or p.p_name like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        or p_level like concat('%',#{keyword,jdbcType=VARCHAR},'%')
+        and p.p_del=1
+      </trim>
+    </select>
+  <update id="updateByZd">
+    update privilege p
+    <trim prefix="set" suffixOverrides=",">
+        <if test="context.pRole != null and context.pRole != ''">
+          p.p_role=#{context.pRole,jdbcType=VARCHAR},
+        </if>
+        <if test="context.pName != null and context.pName != ''">
+          p.p_name=#{context.pName,jdbcType=VARCHAR},
+        </if>
+        <if test="context.pLevel != null and context.pLevel != ''">
+          p.p_level=#{context.pLevel,jdbcType=VARCHAR},
+        </if>
+      <if test="context.pCreationtime != null">
+        p.p_creationtime=#{context.pCreationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="context.pState != null">
+        p.p_state=#{context.pState,jdbcType=INTEGER}
+      </if>
+    </trim>
+    <trim prefix="where">
+      p.p_id=#{context.pId,jdbcType=INTEGER}
+
+    </trim>
+  </update>
+  <insert id="insertdate">
+    insert into privilege( p_role, p_name, p_level, p_creationtime, p_state,p_del)
+    values (#{privil.pRole,jdbcType=VARCHAR},#{privil.pName,jdbcType=VARCHAR},#{privil.pLevel,jdbcType=VARCHAR},#{privil.pCreationtime,jdbcType=TIMESTAMP},#{privil.pState,jdbcType=INTEGER},1)
+  </insert>
+  <update id="updatebydel">
+    update privilege p
+    set p.p_del=0
+    where p.p_id in
+    <foreach collection="del" item="id" index="index"
+             open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+</mapper>

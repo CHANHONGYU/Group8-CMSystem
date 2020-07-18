@@ -41,7 +41,7 @@ public class ManagersController {
         return RUtity.success(i);
     }
 
-    @PutMapping(value = "/",produces = {"application/json"})
+    @PostMapping(value = "/batch",produces = {"application/json"})
     public RUtity<Integer> Deleted(@RequestBody int[] ints){
         int i = managersService.DeleteInformation(ints);
         return RUtity.success(i);

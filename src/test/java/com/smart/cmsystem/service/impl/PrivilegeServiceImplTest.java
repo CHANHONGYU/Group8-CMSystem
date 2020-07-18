@@ -43,7 +43,8 @@ public class PrivilegeServiceImplTest {
     }
     @Test
     public void deleteById(){
-        int i = privilegeService.deleteById(15);
+        int[] ints = {1,2};
+        int i = privilegeService.deleteById(ints);
         System.out.println(i);
     }
 }

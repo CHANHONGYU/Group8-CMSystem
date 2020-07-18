@@ -46,4 +46,10 @@ public class ManagersServiceImplTest {
         int i = managersService.modifyData(managerDto);
         System.out.println(i);
     }
+    @Test
+    public void testDeleteInformation() {
+        int[] ints = {1,2,3};
+        int i = managersService.DeleteInformation(ints);
+        System.out.println(i);
+    }
 }

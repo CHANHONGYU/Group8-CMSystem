@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.cmsystem.mapper.UsergroupMapper">
+  <resultMap id="BaseResultMap" type="com.smart.cmsystem.domain.entity.Usergroup">
+    <!--@mbg.generated-->
+    <!--@Table usergroup-->
+    <id column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="u_role" jdbcType="VARCHAR" property="uRole" />
+    <result column="u_privlegelevel" jdbcType="VARCHAR" property="uPrivlegelevel" />
+    <result column="u_describe" jdbcType="VARCHAR" property="uDescribe" />
+    <result column="u_state" jdbcType="INTEGER" property="uState" />
+    <result column="u_del" jdbcType="INTEGER" property="uDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    u_id, u_role, u_privlegelevel, u_describe, u_state, u_del
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select u.u_id, u_role, u_privlegelevel, u_describe, u_state, u_del
+    from usergroup u
+    where u.u_del=1
+  </select>
+  <select id="selectByKeyword" resultMap="BaseResultMap">
+    select *
+    from usergroup u
+    <trim prefix="where" >
+      u.u_privlegelevel like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+      and u.u_del=1
+    </trim>
+  </select>
+  <update id="updateXinx">
+    update usergroup u
+    <trim prefix="set" suffixOverrides=",">
+     <if test="ug.uRole != null and ug.uRole != ''">
+       u.u_role = #{ug.uRole,jdbcType=VARCHAR},
+     </if>
+      <if test="ug.uPrivlegelevel != null and ug.uPrivlegelevel != ''">
+        u.u_privlegelevel=#{ug.uPrivlegelevel,jdbcType=VARCHAR},
+      </if>
+      <if test="ug.uDescribe != null and ug.uDescribe != ''">
+        u.u_describe=#{ug.uDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="ug.uState != null">
+        u.u_state=#{ug.uState,jdbcType=INTEGER}
+      </if>
+    </trim>
+        where u.u_id=#{ug.uId,jdbcType=INTEGER}
+  </update>
+  <insert id="insertDate">
+    insert into usergroup( u_role, u_privlegelevel, u_describe, u_state)
+    values (#{ug.uRole,jdbcType=VARCHAR},#{ug.uPrivlegelevel,jdbcType=VARCHAR},#{ug.uDescribe,jdbcType=VARCHAR},#{ug.uState,jdbcType=INTEGER})
+  </insert>
+  <update id="updateBydetele">
+    update usergroup u
+    set u.u_del=0
+    where u.u_id in
+    <foreach collection="ints" item="id" index="index"
+             open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+</mapper>

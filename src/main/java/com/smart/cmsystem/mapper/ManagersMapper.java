@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ManagersMapper {
-    //查询所有
+    //列表显示
     List<Managers> selectALL();
     //关键字查询
     List<Managers> selectByKeyword(@Param("keyword") String keyword);
